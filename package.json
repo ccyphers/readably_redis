@@ -1,0 +1,23 @@
+{
+  "name": "readably_redis",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node node_modules/.bin/mocha test/adds_cache_to_rds.js"
+  },
+  "author": "Cliff Cyphers",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "async": "^1.4.2",
+    "bluebird": "^2.9.34",
+    "knex": "ccyphers/knex",
+    "lodash": "^3.10.1",
+    "redis": "^0.12.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "chai": "^3.0.0",
+    "sqlite3": "3.1.4"
+  }
+}
