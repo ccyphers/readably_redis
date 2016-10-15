@@ -78,8 +78,9 @@ function ReadablyRedis(settings) {
                         res.end = end;
 
                         // list of {TableName: [IDs]} mapping
-                        var cache_map = JSON.parse(res._headers['x-cache-ids']);
-
+                        if(res._headers['x-cache-ids']) {
+                          var cache_map = JSON.parse(res._headers['x-cache-ids']);
+                        }
                         // on a 304 there will be no data in the chunk - need to ensure
                         // caller sets an item in the header so we can access the data to cache
                         if(chunk != "") {
@@ -96,13 +97,18 @@ function ReadablyRedis(settings) {
                         res._headers['x-cache-ids'] = "";
                         res._headers['x-cache-paging'] = "";
                         res._headers['x-cache-response'] = "";
-
+                        if(cache_map) {
                         set_meta(req.path, key, cache_map, paging)
                             .then(function (meta_res) {
                                 settings.client.set(key, cache, function (err, set_res) {
                                     res.end(cache, encoding);
                                 })
                             })
+                        } else {
+                          settings.client.set(key, cache, function (err, set_res) {
+                            res.end(cache, encoding);
+                          })
+                        }
                     }
                     next();
                 }
